@@ -4,7 +4,7 @@ const playerFactory = (name, marker) => {
 
 const player1 = playerFactory("Adam", "X");
 const player2 = playerFactory("Bob", "O");
-let currentTurn = "player1";
+let player1Turn = true;
 
 
 const gameboard = (() => {
@@ -16,9 +16,9 @@ const gameboard = (() => {
   */
 
 	const getMarker = () => {
-		if (currentTurn == "player1") {
+		if (player1Turn) {
 			return player1.marker;
-		} else if (currentTurn == "player2") {
+		} else {
 			return player2.marker;
 		}
 	}
@@ -35,12 +35,12 @@ const gameboard = (() => {
   });
 
   const switchTurn = () => {
-    if (currentTurn == "player1") {
-      currentTurn = "player2";
-    } else if (currentTurn == "player2") {
-      currentTurn = "player1";
+    if (player1Turn) {
+      player1Turn = false;
+    } else {
+			player1Turn = true;
+		}
     }
-  };
 
   return {
     currentGameboard,
