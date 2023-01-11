@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;800;900&display=swap');
 
 * {
     box-sizing: border-box;
@@ -45,6 +46,9 @@ h1 > span {
 .cell {
     border: 1px solid black;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .cell:nth-child(1) {
@@ -77,5 +81,18 @@ h1 > span {
 
 .cell:nth-child(9) {
     border-width: 1px 0px 0px 1px;
+}
+
+.symbol {
+    font-family: 'Crimson Text';
+    font-size: 80px;
+}
+
+.symbol__x {
+    color: var(--primary-color);
+}
+
+.symbol__o {
+    color: var(--secondary-color);
 }
 
