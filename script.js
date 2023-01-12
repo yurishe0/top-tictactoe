@@ -62,6 +62,18 @@ const gameboard = (() => {
         gameboard.currentGameboard[winningCombinations[i][2]] == getMarker()
       ) {
         console.log("Victory!");
+        displayControl.disableInput();
+        const body = document.querySelector("body");
+        const winnerMessage = document.createElement("p");
+        let winner = "";
+        if (getMarker() == "X") {
+          winner = "Player 1";
+        } else if (getMarker() == "O") {
+          winner = "Player 2";
+        }
+        winnerMessage.textContent = `${winner} is victorious!`;
+        winnerMessage.classList.add("victory-message");
+        body.appendChild(winnerMessage);
       }
     }
   };
@@ -87,7 +99,22 @@ const displayControl = (() => {
     }
   };
 
+  const enableInput = () => {
+    const cells = document.querySelectorAll(".cell");
+    cells.forEach((cell) => {
+      cell.style.pointerEvents = "";
+    });
+  };
+
+  const disableInput = () => {
+    const cells = document.querySelectorAll(".cell");
+    cells.forEach((cell) => {
+      cell.style.pointerEvents = "none";
+    });
+  };
   return {
     displayGameboard,
+    disableInput,
+    enableInput,
   };
 })();
