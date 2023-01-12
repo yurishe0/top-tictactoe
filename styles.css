@@ -86,7 +86,7 @@ h1 > span {
 
 .symbol {
     font-family: 'Crimson Text';
-    font-size: 80px;
+    font-size: 60px;
 }
 
 .symbol__X {
@@ -97,3 +97,7 @@ h1 > span {
     color: var(--secondary-color);
 }
 
+.victory-message {
+    text-align: center;
+    font-size: clamp(16px, 2vw, 36px);
+}
