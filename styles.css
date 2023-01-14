@@ -102,3 +102,75 @@ h1 > span {
     text-align: center;
     font-size: clamp(16px, 2vw, 36px);
 }
+
+.form {
+    width: min(500px, 100%);
+    margin: 40px auto 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form > label, input {
+    display: block;
+}
+
+.input-container > input {
+    padding: 5px;
+    border-radius: 8px;
+    border: 1px solid black;
+    outline: none;
+}
+
+#playerOne {
+    border: 1px solid var(--primary-color);
+}
+
+#playerTwo {
+    border: 1px solid var(--secondary-color);
+}
+
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button {
+    padding: 10px 30px;
+    margin-bottom: 40px;
+    background: linear-gradient(-45deg, var(--primary-color), var(--secondary-color));
+	background-size: 400% 400%;
+	animation: gradient 3s ease infinite;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+
+    transition: background-image 1s;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+button:hover {
+    transform: rotate(3deg);
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+}
+
+@media screen and (max-width: 400px) {
+    .form {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
