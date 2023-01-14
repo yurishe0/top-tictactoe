@@ -61,8 +61,24 @@ const gameboard = (() => {
         gameboard.currentGameboard[winningCombinations[i][1]] == getMarker() &&
         gameboard.currentGameboard[winningCombinations[i][2]] == getMarker()
       ) {
-        console.log("Victory!");
         displayControl.disableInput();
+
+        const cells = document.querySelectorAll(".cell");
+        cells.forEach((cell) => {
+          if (
+            cell.getAttribute("data-index") == winningCombinations[i][0] ||
+            cell.getAttribute("data-index") == winningCombinations[i][1] ||
+            cell.getAttribute("data-index") == winningCombinations[i][2]
+          ) {
+            cell.style.fontSize = "6em";
+            cell.style.textShadow = "2px 2px black";
+          }
+        });
+
+        // const cell1 = document.querySelector(`[data-index="${winningCombinations[i][0]}"]`);
+        // const cell2 = document.querySelector(`[data-index="${winningCombinations[i][1]}"]`);
+        // const cell3 = document.querySelector(`[data-index="${winningCombinations[i][2]}"]`);
+
         const body = document.querySelector("body");
         const winnerMessage = document.createElement("p");
         let winner = "";
