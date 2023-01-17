@@ -82,11 +82,10 @@ const gameboard = (() => {
         const winnerMessage = document.createElement("p");
         let winner = "";
         if (getMarker() == "X") {
-          winner = "Player 1";
+          winnerMessage.textContent = `${player1.name} is victorious!`;
         } else if (getMarker() == "O") {
-          winner = "Player 2";
+          winnerMessage.textContent = `${player2.name} is victorious!`;
         }
-        winnerMessage.textContent = `${winner} is victorious!`;
         winnerMessage.classList.add("victory-message");
         body.appendChild(winnerMessage);
       }
