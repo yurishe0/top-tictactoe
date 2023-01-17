@@ -2,17 +2,22 @@ const playerFactory = (name, marker) => {
   return { name, marker };
 };
 
-const player1 = playerFactory("Adam", "X");
-const player2 = playerFactory("Bob", "O");
+let player1;
+let player2;
 let player1Turn = true;
 
 const gameboard = (() => {
   const currentGameboard = ["", "", "", "", "", "", "", "", ""];
-  /*
-    0 1 2
-    3 4 5
-    6 7 8
-  */
+  const cells = document.querySelectorAll(".cell");
+  const submitButton = document.querySelector('button[type="submit"]');
+
+  submitButton.addEventListener('click', () => {
+    const playerOne = document.querySelector('#playerOne');
+    const playerTwo = document.querySelector('#playerTwo');
+
+    player1 = playerFactory(playerOne.value, "X");
+    player2 = playerFactory(playerTwo.value, "O");
+  });
 
   const getMarker = () => {
     if (player1Turn) {
@@ -22,7 +27,6 @@ const gameboard = (() => {
     }
   };
 
-  const cells = document.querySelectorAll(".cell");
   cells.forEach((cell) => {
     cell.addEventListener("click", () => {
       if (!cell.hasChildNodes()) {
@@ -52,7 +56,6 @@ const gameboard = (() => {
     [0, 4, 8],
     [2, 4, 6],
   ];
-  // 0, 3, 6, 7, 8
 
   const checkForWin = () => {
     for (let i = 0; i < winningCombinations.length; i++) {
@@ -71,13 +74,9 @@ const gameboard = (() => {
             cell.getAttribute("data-index") == winningCombinations[i][2]
           ) {
             cell.style.fontSize = "6em";
-            cell.style.textShadow = "2px 2px black";
+            cell.style.textShadow = "1px 2px black";
           }
         });
-
-        // const cell1 = document.querySelector(`[data-index="${winningCombinations[i][0]}"]`);
-        // const cell2 = document.querySelector(`[data-index="${winningCombinations[i][1]}"]`);
-        // const cell3 = document.querySelector(`[data-index="${winningCombinations[i][2]}"]`);
 
         const body = document.querySelector("body");
         const winnerMessage = document.createElement("p");
@@ -128,6 +127,7 @@ const displayControl = (() => {
       cell.style.pointerEvents = "none";
     });
   };
+
   return {
     displayGameboard,
     disableInput,
