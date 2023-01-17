@@ -80,12 +80,18 @@ const gameboard = (() => {
 
         const body = document.querySelector("body");
         const winnerMessage = document.createElement("p");
-        let winner = "";
+        const winner = document.createElement("span");
+
         if (getMarker() == "X") {
-          winnerMessage.textContent = `${player1.name} is victorious!`;
+          winner.textContent = player1.name;
+          winner.style.color = "var(--primary-color)";
         } else if (getMarker() == "O") {
-          winnerMessage.textContent = `${player2.name} is victorious!`;
+          winner.textContent = player2.name;
+          winner.style.color = "var(--secondary-color)";
         }
+
+        winnerMessage.appendChild(winner);
+        winnerMessage.innerHTML += ` is victorious!`;
         winnerMessage.classList.add("victory-message");
         body.appendChild(winnerMessage);
       }
