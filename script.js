@@ -11,12 +11,19 @@ const gameboard = (() => {
   const cells = document.querySelectorAll(".cell");
   const submitButton = document.querySelector('button[type="submit"]');
 
-  submitButton.addEventListener('click', () => {
-    const playerOne = document.querySelector('#playerOne');
-    const playerTwo = document.querySelector('#playerTwo');
+  submitButton.addEventListener("click", () => {
+    const playerOne = document.querySelector("#playerOne");
+    const playerTwo = document.querySelector("#playerTwo");
 
     player1 = playerFactory(playerOne.value, "X");
     player2 = playerFactory(playerTwo.value, "O");
+
+    if (player1.name == "" || player2.name == "") {
+      displayControl.generateMessage("The names can not be empty!", "var(--error-color)");
+    } else {
+      displayControl.clearMessages();
+      displayControl.enableInput();
+    }
   });
 
   const getMarker = () => {
@@ -78,7 +85,7 @@ const gameboard = (() => {
           }
         });
 
-        const body = document.querySelector("body");
+        const messageContainer = document.querySelector(".message-container");
         const winnerMessage = document.createElement("p");
         const winner = document.createElement("span");
 
@@ -92,8 +99,7 @@ const gameboard = (() => {
 
         winnerMessage.appendChild(winner);
         winnerMessage.innerHTML += ` is victorious!`;
-        winnerMessage.classList.add("victory-message");
-        body.appendChild(winnerMessage);
+        messageContainer.appendChild(winnerMessage);
       }
     }
   };
@@ -133,9 +139,27 @@ const displayControl = (() => {
     });
   };
 
+  const generateMessage = (msg, color) => {
+    clearMessages();
+    const messageContainer = document.querySelector(".message-container");
+    const message = document.createElement("p");
+    message.style.color = color;
+    message.textContent = msg;
+    messageContainer.appendChild(message);
+  }
+
+  const clearMessages = () => {
+    const messageContainer = document.querySelector(".message-container");
+    messageContainer.innerHTML = '';
+  }
+
   return {
     displayGameboard,
     disableInput,
     enableInput,
+    generateMessage,
+    clearMessages,
   };
 })();
+
+displayControl.disableInput();
