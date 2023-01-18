@@ -9,6 +9,7 @@
 :root {
     --primary-color: rgb(29, 158, 233);
     --secondary-color: rgb(106, 228, 58);
+    --error-color: rgb(224, 61, 61);
 }
 
 body {
@@ -98,11 +99,6 @@ h1 > span {
     color: var(--secondary-color);
 }
 
-.victory-message {
-    text-align: center;
-    font-size: clamp(16px, 2vw, 36px);
-}
-
 .form {
     width: min(500px, 100%);
     margin: 40px auto 10px;
@@ -129,7 +125,6 @@ h1 > span {
 #playerTwo {
     border: 1px solid var(--secondary-color);
 }
-
 
 .button-container {
     display: flex;
@@ -164,8 +159,43 @@ button {
 }
 
 button:hover {
-    transform: rotate(3deg);
+    animation: shake 0.3s;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+}
+
+.message-container {
+    width: 60%;
+    min-height: 50px;
+    margin: 40px auto 0px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+    font-size: clamp(16px, 2vw, 36px);
+}
+
+.message-container p {
+    animation: shake 0.3s;
+}
+
+@keyframes shake {
+    0% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(6deg);
+    }
+    50% {
+        transform: rotate(0deg);
+    }
+    75% {
+        transform: rotate(-4deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
 }
 
 @media screen and (max-width: 400px) {
