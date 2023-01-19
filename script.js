@@ -7,7 +7,7 @@ let player2;
 let player1Turn = true;
 
 const gameboard = (() => {
-  const currentGameboard = ["", "", "", "", "", "", "", "", ""];
+  let currentGameboard = ["", "", "", "", "", "", "", "", ""];
   const cells = document.querySelectorAll(".cell");
   const submitButton = document.querySelector('button[type="submit"]');
 
@@ -15,13 +15,18 @@ const gameboard = (() => {
     const playerOne = document.querySelector("#playerOne");
     const playerTwo = document.querySelector("#playerTwo");
 
-    player1 = playerFactory(playerOne.value, "X");
-    player2 = playerFactory(playerTwo.value, "O");
-
-    if (player1.name == "" || player2.name == "") {
-      displayControl.generateMessage("The names can not be empty!", "var(--error-color)");
+    if (playerOne.value == "" || playerTwo.value == "") {
+      displayControl.generateMessage(
+        "The names can not be empty!",
+        "var(--error-color)"
+      );
     } else {
+      player1 = playerFactory(playerOne.value, "X");
+      player2 = playerFactory(playerTwo.value, "O");
+      playerOne.value = "";
+      playerTwo.value = "";
       displayControl.clearMessages();
+      displayControl.clearBoard();
       displayControl.enableInput();
     }
   });
@@ -39,6 +44,7 @@ const gameboard = (() => {
       if (!cell.hasChildNodes()) {
         currentGameboard[cell.getAttribute("data-index")] = getMarker();
         displayControl.displayGameboard();
+        console.log(currentGameboard);
         checkForWin();
         switchTurn();
       }
@@ -63,6 +69,22 @@ const gameboard = (() => {
     [0, 4, 8],
     [2, 4, 6],
   ];
+
+  const checkForDraw = () => {
+    let filledCells = 0;
+    for (let i = 0; i < currentGameboard.length; i++) {
+      if (currentGameboard[i] == "X" || currentGameboard[i] == "O") {
+        filledCells++;
+      }
+    }
+
+    if (filledCells == 9) {
+      displayControl.generateMessage(
+        "The game ends in a draw!",
+        "var(--warning-color)"
+      );
+    }
+  };
 
   const checkForWin = () => {
     for (let i = 0; i < winningCombinations.length; i++) {
@@ -100,9 +122,19 @@ const gameboard = (() => {
         winnerMessage.appendChild(winner);
         winnerMessage.innerHTML += ` is victorious!`;
         messageContainer.appendChild(winnerMessage);
+      } else {
+        checkForDraw();
       }
     }
   };
+
+  const restartButton = document.querySelector("#restart");
+  restartButton.addEventListener("click", () => {
+    displayControl.clearBoard();
+    displayControl.clearMessages();
+    player1Turn = true;
+    displayControl.enableInput();
+  });
 
   return {
     currentGameboard,
@@ -146,12 +178,25 @@ const displayControl = (() => {
     message.style.color = color;
     message.textContent = msg;
     messageContainer.appendChild(message);
-  }
+  };
 
   const clearMessages = () => {
     const messageContainer = document.querySelector(".message-container");
-    messageContainer.innerHTML = '';
-  }
+    messageContainer.innerHTML = "";
+  };
+
+  const clearBoard = () => {
+    for (let i = 0; i < gameboard.currentGameboard.length; i++) {
+      gameboard.currentGameboard[i] = "";
+    }
+    const cells = document.querySelectorAll(".cell");
+    cells.forEach((cell) => {
+      cell.classList.remove("symbol", "symbol__X", "symbol__O");
+      cell.innerHTML = "";
+      cell.removeAttribute("style");
+      enableInput();
+    });
+  };
 
   return {
     displayGameboard,
@@ -159,6 +204,7 @@ const displayControl = (() => {
     enableInput,
     generateMessage,
     clearMessages,
+    clearBoard,
   };
 })();
 
