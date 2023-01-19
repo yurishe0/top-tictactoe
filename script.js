@@ -1,5 +1,5 @@
-const playerFactory = (name, marker) => {
-  return { name, marker };
+const playerFactory = (name, marker, score) => {
+  return { name, marker, score};
 };
 
 let player1;
@@ -21,12 +21,13 @@ const gameboard = (() => {
         "var(--error-color)"
       );
     } else {
-      player1 = playerFactory(playerOne.value, "X");
-      player2 = playerFactory(playerTwo.value, "O");
+      player1 = playerFactory(playerOne.value, "X", 0);
+      player2 = playerFactory(playerTwo.value, "O", 0);
       playerOne.value = "";
       playerTwo.value = "";
       displayControl.clearMessages();
       displayControl.clearBoard();
+      displayControl.displayScore();
       displayControl.enableInput();
     }
   });
@@ -44,7 +45,6 @@ const gameboard = (() => {
       if (!cell.hasChildNodes()) {
         currentGameboard[cell.getAttribute("data-index")] = getMarker();
         displayControl.displayGameboard();
-        console.log(currentGameboard);
         checkForWin();
         switchTurn();
       }
@@ -122,6 +122,14 @@ const gameboard = (() => {
         winnerMessage.appendChild(winner);
         winnerMessage.innerHTML += ` is victorious!`;
         messageContainer.appendChild(winnerMessage);
+
+        if (getMarker() == "X") {
+          player1.score++;
+        } else {
+          player2.score++;
+        }
+        displayControl.updateScore();
+
       } else {
         checkForDraw();
       }
@@ -198,6 +206,39 @@ const displayControl = (() => {
     });
   };
 
+  const displayScore = () => {
+    const player1Container = document.querySelector(".player1");
+    const player2Container = document.querySelector(".player2");
+    player1Container.innerHTML = "";
+    player2Container.innerHTML = "";
+
+    const player1Header = document.createElement("h2");
+    const player1Score = document.createElement("p");
+    const player2Header = document.createElement("h2");
+    const player2Score = document.createElement("p");
+
+    player1Header.textContent = player1.name;
+    player1Score.textContent = "0";
+    player2Header.textContent = player2.name;
+    player2Score.textContent = "0";
+
+    const scoreContainer = document.querySelector(".score-container");
+
+    player1Container.appendChild(player1Header);
+    player1Container.appendChild(player1Score);
+    player2Container.appendChild(player2Header);
+    player2Container.appendChild(player2Score);
+    scoreContainer.style.appearance = "";
+  };
+
+  const updateScore = () => {
+    const player1Score = document.querySelector(".player1 p");
+    const player2Score = document.querySelector(".player2 p");
+
+    player1Score.textContent = player1.score;
+    player2Score.textContent = player2.score;
+  }
+
   return {
     displayGameboard,
     disableInput,
@@ -205,6 +246,8 @@ const displayControl = (() => {
     generateMessage,
     clearMessages,
     clearBoard,
+    displayScore,
+    updateScore,
   };
 })();
 
