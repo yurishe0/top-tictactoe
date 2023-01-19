@@ -10,6 +10,7 @@
     --primary-color: rgb(29, 158, 233);
     --secondary-color: rgb(106, 228, 58);
     --error-color: rgb(224, 61, 61);
+    --warning-color: rgb(230, 160, 30);
 }
 
 body {
@@ -135,7 +136,7 @@ h1 > span {
 
 button {
     padding: 10px 30px;
-    margin-bottom: 80px;
+    /* margin-bottom: 80px; */
     background: linear-gradient(-45deg, var(--primary-color), var(--secondary-color));
 	background-size: 400% 400%;
 	animation: gradient 3s ease infinite;
@@ -145,6 +146,10 @@ button {
     border-radius: 8px;
 
     transition: background-image 1s;
+}
+
+#restart {
+    background: linear-gradient(-90deg, var(--secondary-color), var(--primary-color));
 }
 
 @keyframes gradient {
@@ -165,9 +170,9 @@ button:hover {
 }
 
 .message-container {
-    width: 60%;
+    width: 80%;
     min-height: 50px;
-    margin: 40px auto 0px;
+    margin: auto;
 
     display: flex;
     justify-content: center;
@@ -180,6 +185,35 @@ button:hover {
 .message-container p {
     animation: shake 0.3s;
 }
+
+.game-container {
+    margin: 20px 0px 0px;
+    padding: 10px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+}
+
+.score-container {
+    width: min(90vw, 400px);
+    min-height: 120px;
+    margin: 0 auto;
+
+    appearance: none;
+
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.player1 h2 {
+    color: var(--primary-color);
+    margin: 0;
+}
+
+.player2 h2 {
+    color: var(--secondary-color);
+    margin: 0;
+}
+
 
 @keyframes shake {
     0% {
