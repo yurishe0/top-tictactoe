@@ -19,28 +19,30 @@ const gameboard = (() => {
 
     // check for AI game
     if(playerTwo == undefined) {
-      player1 = playerFactory(playerOne.value, "X", 0);
-      player2 = playerFactory("AI", "O", "0");
-      playerOne.value = "";
-      displayControl.clearMessages();
-      displayControl.clearBoard();
-      displayControl.displayScore();
-      displayControl.enableInput();
+      if(playerOne.value == "") {
+        displayControl.generateMessage("The name can not be left empty!", "var(--error-color)");
+      } else {
+        player1 = playerFactory(playerOne.value, "X", 0);
+        player2 = playerFactory("AI", "O", "0");
+        playerOne.value = "";
+      }
     } else if (playerOne.value == "" || playerTwo.value == "") {
       displayControl.generateMessage(
         "The names can not be empty!",
         "var(--error-color)"
       );
+      return;
     } else {
       player1 = playerFactory(playerOne.value, "X", 0);
       player2 = playerFactory(playerTwo.value, "O", 0);
       playerOne.value = "";
       playerTwo.value = "";
-      displayControl.clearMessages();
-      displayControl.clearBoard();
-      displayControl.displayScore();
-      displayControl.enableInput();
     }
+    player1Turn = true;
+    displayControl.clearMessages();
+    displayControl.clearBoard();
+    displayControl.displayScore();
+    displayControl.enableInput();
   });
 
   aiButton.addEventListener("click", () => {
@@ -49,6 +51,8 @@ const gameboard = (() => {
       player2Container.remove();
       aiButton.textContent = "Play with a human";
       isAiGame = true;
+      displayControl.clearBoard;
+      player2 = playerFactory("AI", "O", "0");
     }
     else {
       const form = document.querySelector(".form");
@@ -67,7 +71,7 @@ const gameboard = (() => {
       form.appendChild(inputContainer);
       aiButton.textContent = "Play with AI";
       isAiGame = false;
-
+      displayControl.clearBoard;
     }
   })
 
@@ -177,7 +181,6 @@ const gameboard = (() => {
         displayControl.updateScore();
       }
     }
-    console.log(winFound);
     if(winFound == false) {
       checkForDraw();
     }
@@ -303,13 +306,23 @@ const aiGame = (() => {
     let isMoveValid = false;
     let randomizedCellIndex;
 
-    do {
-      let randomNumber = Math.floor(Math.random() * 9);
-      if (gameboard.currentGameboard[randomNumber] == "") {
-        isMoveValid = true;
-        randomizedCellIndex = randomNumber;
+    let filledCells = 0;
+    for (let i = 0; i < gameboard.currentGameboard.length; i++) {
+      if (gameboard.currentGameboard[i] == "X" || gameboard.currentGameboard[i] == "O") {
+        filledCells++;
       }
-    } while (!isMoveValid);
+    }
+
+    if(filledCells < 8) {
+      do {
+        let randomNumber = Math.floor(Math.random() * 9);
+        if (gameboard.currentGameboard[randomNumber] == "") {
+          isMoveValid = true;
+          randomizedCellIndex = randomNumber;
+        }
+      } while (!isMoveValid);
+    }
+
 
     gameboard.currentGameboard[randomizedCellIndex] = "O";
     displayControl.displayGameboard();
