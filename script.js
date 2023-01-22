@@ -242,7 +242,7 @@ const displayControl = (() => {
     }
     const cells = document.querySelectorAll(".cell");
     cells.forEach((cell) => {
-      cell.classList.remove("symbol", "symbol__X", "symbol__O");
+      cell.classList.remove("symbol", "symbol__X", "symbol__O", "symbol__large");
       cell.innerHTML = "";
       cell.removeAttribute("style");
       enableInput();
