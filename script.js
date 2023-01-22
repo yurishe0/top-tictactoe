@@ -131,12 +131,14 @@ const gameboard = (() => {
   };
 
   const checkForWin = () => {
+    let winFound = false;
     for (let i = 0; i < winningCombinations.length; i++) {
       if (
         gameboard.currentGameboard[winningCombinations[i][0]] == getMarker() &&
         gameboard.currentGameboard[winningCombinations[i][1]] == getMarker() &&
         gameboard.currentGameboard[winningCombinations[i][2]] == getMarker()
       ) {
+        winFound = true;
         displayControl.disableInput();
 
         const cells = document.querySelectorAll(".cell");
@@ -173,9 +175,11 @@ const gameboard = (() => {
           player2.score++;
         }
         displayControl.updateScore();
-      } else {
-        checkForDraw();
       }
+    }
+    console.log(winFound);
+    if(winFound == false) {
+      checkForDraw();
     }
   };
 
