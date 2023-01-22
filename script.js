@@ -1,21 +1,32 @@
 const playerFactory = (name, marker, score) => {
-  return { name, marker, score};
+  return { name, marker, score };
 };
 
 let player1;
 let player2;
 let player1Turn = true;
+let isAiGame = false;
 
 const gameboard = (() => {
   let currentGameboard = ["", "", "", "", "", "", "", "", ""];
   const cells = document.querySelectorAll(".cell");
   const submitButton = document.querySelector('button[type="submit"]');
+  const aiButton = document.querySelector("#ai");
 
   submitButton.addEventListener("click", () => {
     const playerOne = document.querySelector("#playerOne");
     const playerTwo = document.querySelector("#playerTwo");
 
-    if (playerOne.value == "" || playerTwo.value == "") {
+    // check for AI game
+    if(playerTwo == undefined) {
+      player1 = playerFactory(playerOne.value, "X", 0);
+      player2 = playerFactory("AI", "O", "0");
+      playerOne.value = "";
+      displayControl.clearMessages();
+      displayControl.clearBoard();
+      displayControl.displayScore();
+      displayControl.enableInput();
+    } else if (playerOne.value == "" || playerTwo.value == "") {
       displayControl.generateMessage(
         "The names can not be empty!",
         "var(--error-color)"
@@ -32,6 +43,34 @@ const gameboard = (() => {
     }
   });
 
+  aiButton.addEventListener("click", () => {
+    if(!isAiGame) {
+      const player2Container = document.querySelector(".input-container:nth-child(2)");
+      player2Container.remove();
+      aiButton.textContent = "Play with a human";
+      isAiGame = true;
+    }
+    else {
+      const form = document.querySelector(".form");
+      const inputContainer = document.createElement("div");
+      const label = document.createElement("label");
+      const input = document.createElement("input");
+      inputContainer.classList.add("input-container");
+      label.setAttribute("for", "text");
+      label.textContent = "Player 2";
+      input.setAttribute("type", "text");
+      input.setAttribute("name", "playerTwo");
+      input.setAttribute("id", "playerTwo");
+
+      inputContainer.appendChild(label);
+      inputContainer.appendChild(input);
+      form.appendChild(inputContainer);
+      aiButton.textContent = "Play with AI";
+      isAiGame = false;
+
+    }
+  })
+
   const getMarker = () => {
     if (player1Turn) {
       return player1.marker;
@@ -45,6 +84,11 @@ const gameboard = (() => {
       if (!cell.hasChildNodes()) {
         currentGameboard[cell.getAttribute("data-index")] = getMarker();
         displayControl.displayGameboard();
+        checkForWin();
+        switchTurn();
+      }
+      if(isAiGame) {
+        aiGame.randomMove();
         checkForWin();
         switchTurn();
       }
@@ -129,7 +173,6 @@ const gameboard = (() => {
           player2.score++;
         }
         displayControl.updateScore();
-
       } else {
         checkForDraw();
       }
@@ -237,7 +280,7 @@ const displayControl = (() => {
 
     player1Score.textContent = player1.score;
     player2Score.textContent = player2.score;
-  }
+  };
 
   return {
     displayGameboard,
@@ -248,6 +291,28 @@ const displayControl = (() => {
     clearBoard,
     displayScore,
     updateScore,
+  };
+})();
+
+const aiGame = (() => {
+  const randomMove = () => {
+    let isMoveValid = false;
+    let randomizedCellIndex;
+
+    do {
+      let randomNumber = Math.floor(Math.random() * 9);
+      if (gameboard.currentGameboard[randomNumber] == "") {
+        isMoveValid = true;
+        randomizedCellIndex = randomNumber;
+      }
+    } while (!isMoveValid);
+
+    gameboard.currentGameboard[randomizedCellIndex] = "O";
+    displayControl.displayGameboard();
+  };
+
+  return {
+    randomMove,
   };
 })();
 
