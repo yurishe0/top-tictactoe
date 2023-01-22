@@ -92,6 +92,10 @@ h1 > span {
     transition: font-size 0.1s ease-in, text-shadow 0.1s;
 }
 
+.symbol__large {
+    font-size: 6em;
+}
+
 .symbol__X {
     color: var(--primary-color);
 }
@@ -237,5 +241,14 @@ button:hover {
     .form {
         flex-direction: column;
         gap: 10px;
+    }
+}
+
+@media screen and (max-width:450px) {
+    .symbol {
+        font-size: 3em;
+    }
+    .symbol__large {
+        font-size: 4em;
     }
 }

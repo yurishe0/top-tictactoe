@@ -102,7 +102,7 @@ const gameboard = (() => {
             cell.getAttribute("data-index") == winningCombinations[i][1] ||
             cell.getAttribute("data-index") == winningCombinations[i][2]
           ) {
-            cell.style.fontSize = "6em";
+            cell.classList.add("symbol__large");
             cell.style.textShadow = "1px 2px black";
           }
         });
